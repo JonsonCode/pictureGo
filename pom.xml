@@ -15,5 +15,15 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>5.4.0.201906121030-r</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
+        <!-- https://github.com/jfoenixadmin/JFoenix -->
+        <!-- UI组件-->
+        <!-- https://github.com/jfoenixadmin/JFoenix/wiki#trying-the-demo -->
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.9</version>
+        </dependency>
+
     </dependencies>
 </project>
