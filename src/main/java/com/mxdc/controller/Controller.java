@@ -1,4 +1,4 @@
-package com.mxdc;
+package com.mxdc.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
