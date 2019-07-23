@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Application.Main"
+            prefHeight="570.0" prefWidth="858.0">
+    <top>
+        <BorderPane xmlns="http://javafx.com/javafx"
+                    xmlns:fx="http://javafx.com/fxml"
+                    fx:id="TitleBar" stylesheets="@../css/TitleBarStyle.css">
+            <left><HBox fx:id="Left_HBox"><Label>PictureGo</Label></HBox></left>
+            <right>
+                <HBox fx:id="Right_HBox">
+                    <Label><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/MinimizeDefault.png"></Image></ImageView></graphic></Label>
+                    <Label><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/MaximizeDefault.png"></Image></ImageView></graphic></Label>
+                    <Label><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/ExitDefault.png"></Image></ImageView></graphic></Label>
+                </HBox>
+            </right>
+        </BorderPane>
+    </top>
+
+    <left>
+
+    </left>
+
+    <center>
+
+    </center>
+</BorderPane>
