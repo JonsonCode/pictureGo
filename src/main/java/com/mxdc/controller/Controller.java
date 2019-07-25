@@ -1,5 +1,7 @@
 package com.mxdc.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -150,8 +152,8 @@ public class Controller implements Initializable {
                         validTitleBarWidth = primaryStage.getWidth()-labelMinimize.getWidth()-labelMaximize.getWidth()-labelExit.getWidth();
                         titleBarMousePressedX = validTitleBarWidth*percentageX;
                         //更新主舞台的坐标
-                        primaryStage.setX(mouseEvent.getScreenX() - titleBarMousePressedX );
-                        primaryStage.setY(mouseEvent.getScreenY() - titleBarMousePressedY );
+                        primaryStage.setX(mouseEvent.getScreenX() - titleBarMousePressedX);
+                        primaryStage.setY(mouseEvent.getScreenY() - titleBarMousePressedY);
                     }
                     else{  //否则为最大化状态，直接更新主舞台的坐标
                         primaryStage.setX(mouseEvent.getScreenX() - this.titleBarMousePressedX);
