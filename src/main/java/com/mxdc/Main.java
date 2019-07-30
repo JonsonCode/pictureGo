@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -34,7 +33,8 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED); //去掉默认的标题栏
-        ResizeUtils.addResizable(primaryStage,858,570);  //为primaryStage添加自由缩放
+        ResizeUtils.addResizable(primaryStage,777,490);  //为primaryStage添加自由缩放
+
         primaryStage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -52,6 +52,9 @@ public class Main extends Application {
         });
         primaryStage.show();
 
+        // 获取屏幕可视化的宽高（Except TaskBar），把窗体设置在可视化的区域中间
+        primaryStage.setX((Screen.getPrimary().getVisualBounds().getWidth() - primaryStage.getWidth()) / 2.0);
+        primaryStage.setY((Screen.getPrimary().getVisualBounds().getHeight() - primaryStage.getHeight()) / 2.0);
         /**
          * 下面这段代码是使任务栏图标响应单击事件，当stage的initStyle设置成UNDECORATED时，任务栏图标单击无法最小化窗体
          * 参见StackOverflow的提问：https://stackoverflow.com/questions/26972683/javafx-minimizing-undecorated-stage
@@ -69,7 +72,6 @@ public class Main extends Application {
 //		    user32.SetWindowLong(hwnd,0x00020000,0x00080000);
         }
 
-        TreeItem<HBox> treeItem = new TreeItem<>();
 
 
     }

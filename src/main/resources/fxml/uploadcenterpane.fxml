@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mxdc.controller.UploadCenterPaneController"
+            fx:id="uploadpane"
+            stylesheets="@../css/UploadCenterPaneStyle.css"
+            >
+    <top>
+        <HBox>
+            <Label style="-fx-padding: 0 0 0 0;-fx-font-size: 1.6em;">图片上传 -</Label>
+            <ComboBox value="GitHub图床">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="SM.MS图床"/>
+                        <String fx:value="腾讯云COS"/>
+                        <String fx:value="微博图床"/>
+                        <String fx:value="GitHub图床"/>
+                        <String fx:value="七牛图床"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox>
+            <Label><graphic><ImageView fitWidth="80" fitHeight="60"><Image url="@../image/cloud.png" ></Image></ImageView></graphic></Label>
+            <HBox><Label style="-fx-font-size: 1.3em;">将文件拖拽到此处，或</Label><Label style="-fx-font-size: 1.3em;-fx-text-fill: #409EFF;-fx-padding: 0 0 0 5;">点击上传</Label></HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox prefHeight="110" style="-fx-border-width: 1 0 0 0;-fx-border-color: WHITE;"></HBox>
+    </bottom>
+</BorderPane>

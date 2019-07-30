@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -41,23 +41,13 @@ public class MainController implements Initializable {
     private HBox hBoxPictureBedSettings;  //图床设置HBox标签
     private boolean flag = false;  //用作“图床设置”是否展开的状态标记
 
-    private Node node;
+    private Pane settingItemsPane;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         labelMinimize.setCursor(Cursor.DEFAULT);
         labelMaximize.setCursor(Cursor.DEFAULT);
         labelExit.setCursor(Cursor.DEFAULT);
         titleBar.setCursor(Cursor.DEFAULT);
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingsItem.fxml"));
-
-            node = loader.load();
-        }
-        catch (Exception e){
-        e.printStackTrace();
-    }
-
     }
 
     //最小化Label按钮事件处理
@@ -239,14 +229,28 @@ public class MainController implements Initializable {
     }
     public void onFlagIconClicked(MouseEvent mouseEvent){
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
+            if (settingItemsPane == null){
+                try {
+                    //加载“图床设置”选项，并设置引用主窗体root
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingsitem.fxml"));
+
+                    settingItemsPane = loader.load();
+                    SettingsItemController settingsItemController =  loader.getController();
+                    settingsItemController.setRoot(root);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
             if (flag) {
                 flag = false;
                 ((Label)hBoxPictureBedSettings.getChildren().get(2)).setGraphic(new ImageView(new Image("/image/fold.png", 10, 10, false, false, false)));
-                vBox.getChildren().remove(node);
+                vBox.getChildren().remove(settingItemsPane);
             } else {
                 flag = true;
                 ((Label)hBoxPictureBedSettings.getChildren().get(2)).setGraphic(new ImageView(new Image("/image/unfold.png", 10, 10, false, false, false)));
-                vBox.getChildren().addAll(node);
+                vBox.getChildren().addAll(settingItemsPane);
             }
         }
     }

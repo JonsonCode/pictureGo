@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mxdc.controller.SettingsItemController">
+
+    <HBox stylesheets="/css/SettingsItemStyle.css" onMouseClicked="#onTest"><Label stylesheets="/css/SettingsItemStyle.css">SM.MS图床</Label></HBox>
+    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">腾讯云COS</Label></HBox>
+    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">微博图床</Label></HBox>
+    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">GitHub图床</Label></HBox>
+    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">七牛图床</Label></HBox>
+
+</VBox>

@@ -3,13 +3,25 @@ HBox
     -fx-pref-height: 70;
     -fx-spacing: 15;
     -fx-padding: 10;
+    -fx-alignment: center-left;
 }
 .label
 {
     -fx-pref-height: 50;
-    /*-fx-text-fill: #409eff;*/
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #EEEEEE;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-font-family: "microsoft yahei";
+}
+#flagicon
+{
+    -fx-pref-width: 10px;
+    -fx-pref-height: 10px;
+    -fx-border-color: #3F3C37;
+    -fx-border-insets: 0 0 0 30px;
+    -fx-opacity: 0.8;
+}
+#flagicon:hover
+{
+    -fx-opacity: 1;
 }

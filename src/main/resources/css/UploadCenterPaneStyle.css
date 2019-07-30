@@ -1,0 +1,53 @@
+#uploadpane
+{
+    -fx-background-color: #3F3C37;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color: #6E6E6E;
+}
+.label
+{
+    -fx-text-fill: #EEEEEE;
+    -fx-font-family: "Microsoft YaHei";
+}
+HBox
+{
+    -fx-alignment: center;
+}
+VBox
+{
+    -fx-spacing: 1.5em;
+    -fx-alignment: center;
+    -fx-border-color: #DDDDDD;
+    -fx-border-insets: 10 60 10 60;
+    -fx-border-radius: 0.83em;
+    -fx-border-width: 2px;
+    -fx-border-style: dashed;
+}
+
+.combo-box-base
+{
+    -fx-pref-width: 135px;
+    -fx-background-color: #3F3C37;
+    -fx-font-size: 20px;
+    -fx-font-family: "Microsoft YaHei";
+
+    -fx-border-insets: 0 0;
+    -fx-padding: 0;
+    -fx-border-width: 1;
+    /*-fx-border-color: RED;*/
+}
+.combo-box .list-cell
+{
+    -fx-background-color: #3F3C37;
+    -fx-text-fill: #EEEEEE;
+    -fx-padding: 3 0 2 3;
+    -fx-border-insets: 0 0 0 0;
+    /*-fx-border-color: RED;*/
+}
+.combo-box .list-cell:hover
+{
+    -fx-background-color: #292623;
+}
+.combo-box-base > .arrow-button {
+    -fx-padding: 0;
+}
