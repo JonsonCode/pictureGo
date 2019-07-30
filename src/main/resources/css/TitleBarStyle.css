@@ -2,6 +2,8 @@
 {
     -fx-pref-height: 32px;
     -fx-background-color: #3f3c37;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #6e6e6e;
 }
 #left_HBox
 {

@@ -1,0 +1,16 @@
+HBox
+{
+    -fx-pref-height: 40;
+    -fx-spacing: 15;
+    -fx-padding: 8 0 0 30;
+}
+.label
+{
+    -fx-pref-height: 40;
+    /*-fx-text-fill: #409eff;*/
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-font-family: "microsoft yahei";
+}
+

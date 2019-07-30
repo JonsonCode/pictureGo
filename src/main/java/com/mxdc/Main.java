@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 
 import static com.sun.jna.platform.win32.WinUser.GWL_STYLE;
 
@@ -35,7 +35,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED); //去掉默认的标题栏
         ResizeUtils.addResizable(primaryStage,858,570);  //为primaryStage添加自由缩放
-
         primaryStage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -51,25 +50,28 @@ public class Main extends Application {
                 }
             }
         });
-
         primaryStage.show();
-
 
         /**
          * 下面这段代码是使任务栏图标响应单击事件，当stage的initStyle设置成UNDECORATED时，任务栏图标单击无法最小化窗体
          * 参见StackOverflow的提问：https://stackoverflow.com/questions/26972683/javafx-minimizing-undecorated-stage
          * **/
-        long lhwnd = com.sun.glass.ui.Window.getWindows().get(0).getNativeWindow();
-        Pointer lpVoid = new Pointer(lhwnd);
-        WinDef.HWND hwnd = new WinDef.HWND(lpVoid);
+        if (System.getProperties().getProperty("os.name").contains("Windows")){  //判断当前os是否为Windows，如果是才执行
+            long lhwnd = com.sun.glass.ui.Window.getWindows().get(0).getNativeWindow();
+            Pointer lpVoid = new Pointer(lhwnd);
+            WinDef.HWND hwnd = new WinDef.HWND(lpVoid);
+            final User32 user32 = User32.INSTANCE;
+            int oldStyle = user32.GetWindowLong(hwnd, GWL_STYLE);
+//          System.out.println(Integer.toBinaryString(oldStyle));
+            int newStyle = oldStyle | 0x00020000;//WS_MINIMIZEBOX
+//          System.out.println(Integer.toBinaryString(newStyle));
+            user32.SetWindowLong(hwnd, GWL_STYLE, newStyle);
+//		    user32.SetWindowLong(hwnd,0x00020000,0x00080000);
+        }
 
-        final User32 user32 = User32.INSTANCE;
-        int oldStyle = user32.GetWindowLong(hwnd, GWL_STYLE);
-//        System.out.println(Integer.toBinaryString(oldStyle));
-        int newStyle = oldStyle | 0x00020000;//WS_MINIMIZEBOX
-//        System.out.println(Integer.toBinaryString(newStyle));
-        user32.SetWindowLong(hwnd, GWL_STYLE, newStyle);
-//		user32.SetWindowLong(hwnd,0x00020000,0x00080000);
+        TreeItem<HBox> treeItem = new TreeItem<>();
+
+
     }
 
     public static void main(String[] args) {

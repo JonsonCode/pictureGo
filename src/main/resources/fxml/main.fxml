@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.mxdc.controller.Controller"
+            fx:id="root"
+            fx:controller="com.mxdc.controller.MainController"
             style="-fx-border-color: #6E6E6E"
             prefWidth="858.0" prefHeight="570.0">
     <top>
@@ -29,10 +27,20 @@
     </top>
 
     <left>
-
+        <ScrollPane hbarPolicy="NEVER" prefWidth="180" stylesheets="@../css/ScrollPaneStyle.css">
+            <VBox fx:id="vBox">
+                <HBox fx:id="hBoxUpload" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onUploadClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/cloud_focused.png"></Image> </ImageView></graphic></Label> <Label stylesheets="@../css/LeftTagStyle.css" style="-fx-text-fill: #409eff;" >上传区</Label></HBox>
+                <HBox fx:id="hBoxPhotograph" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPhotographClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/photograph.png"> </Image>  </ImageView></graphic></Label>  <Label stylesheets="@../css/LeftTagStyle.css" >相册</Label></HBox>
+                <HBox fx:id="hBoxPictureBedSettings" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPictureBedClicked" >
+                    <Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/picturebedsettings.png"> </Image>  </ImageView></graphic></Label>
+                    <Label stylesheets="@../css/LeftTagStyle.css" >图床设置</Label>
+                    <Label style="-fx-padding: 0 0 0 30px;" onMouseClicked="#onFlagIconClicked"><graphic><ImageView fitWidth="10" fitHeight="10"><Image url="@../image/fold.png"> </Image>  </ImageView></graphic></Label>
+                </HBox>
+            </VBox>
+        </ScrollPane>
     </left>
 
     <center>
-
+        <fx:include source="UploadCenterPane.fxml"></fx:include>
     </center>
 </BorderPane>
