@@ -25,3 +25,7 @@ HBox
 {
     -fx-opacity: 1;
 }
+.flag
+{
+    -fx-text-fill: #409eff;
+}

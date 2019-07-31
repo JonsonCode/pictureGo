@@ -34,6 +34,11 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED); //去掉默认的标题栏
         ResizeUtils.addResizable(primaryStage,777,490);  //为primaryStage添加自由缩放
+        primaryStage.show();
+
+        // 获取屏幕可视化的宽高（Except TaskBar），把窗体设置在可视化的区域中间
+        primaryStage.setX((Screen.getPrimary().getVisualBounds().getWidth() - primaryStage.getWidth()) / 2.0);
+        primaryStage.setY((Screen.getPrimary().getVisualBounds().getHeight() - primaryStage.getHeight()) / 2.0);
 
         primaryStage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -50,11 +55,6 @@ public class Main extends Application {
                 }
             }
         });
-        primaryStage.show();
-
-        // 获取屏幕可视化的宽高（Except TaskBar），把窗体设置在可视化的区域中间
-        primaryStage.setX((Screen.getPrimary().getVisualBounds().getWidth() - primaryStage.getWidth()) / 2.0);
-        primaryStage.setY((Screen.getPrimary().getVisualBounds().getHeight() - primaryStage.getHeight()) / 2.0);
         /**
          * 下面这段代码是使任务栏图标响应单击事件，当stage的initStyle设置成UNDECORATED时，任务栏图标单击无法最小化窗体
          * 参见StackOverflow的提问：https://stackoverflow.com/questions/26972683/javafx-minimizing-undecorated-stage

@@ -11,12 +11,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -40,14 +41,20 @@ public class MainController implements Initializable {
     @FXML
     private HBox hBoxPictureBedSettings;  //图床设置HBox标签
     private boolean flag = false;  //用作“图床设置”是否展开的状态标记
+    private VBox settingItemsPane;  //“图床设置”展开的设置选项容器VBox
 
-    private Pane settingItemsPane;
+    private String currentTagName;  //记录当前的标签是“上传区”、“相册”等
+    private Map<String,Object> centerPaneMap;  //保存对应的center面板对象
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         labelMinimize.setCursor(Cursor.DEFAULT);
         labelMaximize.setCursor(Cursor.DEFAULT);
         labelExit.setCursor(Cursor.DEFAULT);
         titleBar.setCursor(Cursor.DEFAULT);
+        currentTagName = "上传区"; //首次运行的面板是上传区的面板
+        centerPaneMap = new HashMap<>();
+
     }
 
     //最小化Label按钮事件处理
@@ -202,8 +209,11 @@ public class MainController implements Initializable {
             this.resetLeftTagStatus();   //调用重设标签的图片和文字颜色函数
             ((Label)hBoxUpload.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/cloud_focused.png",30, 25, false, false, false)));
             ((Label)hBoxUpload.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
-
-            root.setCenter(null);
+            ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().add("flag");
+            this.saveCenterPane();  //保存之前的中间面板对象
+            currentTagName = "上传区";
+            BorderPane centerPane = (BorderPane) centerPaneMap.get(currentTagName);
+            root.setCenter(centerPane);
         }
     }
     //相册tag事件
@@ -212,8 +222,17 @@ public class MainController implements Initializable {
             this.resetLeftTagStatus();   //调用重设标签的图片和文字颜色函数
             ((Label)hBoxPhotograph.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/photograph_focused.png",30, 25, false, false, false)));
             ((Label)hBoxPhotograph.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
+            ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().add("flag");
+            this.saveCenterPane();  //保存之前的中间面板对象
+            currentTagName = "相册";
+            if (centerPaneMap.get(currentTagName)!=null){
+                Label label = (Label)centerPaneMap.get(currentTagName);
+                root.setCenter(label);
+            }
+            else {
+                root.setCenter(new Label("新的Label"));
+            }
 
-            root.setCenter(new Label("相册"));
         }
     }
     //图床设置tag事件
@@ -222,6 +241,7 @@ public class MainController implements Initializable {
             this.resetLeftTagStatus();  //调用重设标签的图片和文字颜色函数
             ((Label)hBoxPictureBedSettings.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/picturebedsettings_focused.png",30, 25, false, false, false)));
             ((Label)hBoxPictureBedSettings.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
+            ((Label)hBoxPictureBedSettings.getChildren().get(1)).getStyleClass().add("flag");
             if (mouseEvent.getClickCount() == 2){
                 this.onFlagIconClicked(mouseEvent);
             }
@@ -258,9 +278,24 @@ public class MainController implements Initializable {
     private void resetLeftTagStatus(){
         ((Label)hBoxUpload.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/cloud.png",30, 25, false, false, false)));
         ((Label)hBoxUpload.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
+        ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().remove("flag");
         ((Label)hBoxPhotograph.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/photograph.png",30, 25, false, false, false)));
         ((Label)hBoxPhotograph.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
+        ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().remove("flag");
         ((Label)hBoxPictureBedSettings.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/picturebedsettings.png",30, 25, false, false, false)));
         ((Label)hBoxPictureBedSettings.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
+        ((Label)hBoxPictureBedSettings.getChildren().get(1)).getStyleClass().remove("flag");
+    }
+    private void saveCenterPane(){
+        if (currentTagName.equals("上传区")){
+            if (centerPaneMap.get(currentTagName) == null){
+                centerPaneMap.put(currentTagName,root.getCenter());
+            }
+        }
+        else if (currentTagName.equals("相册")){
+            if (centerPaneMap.get(currentTagName) == null){
+                centerPaneMap.put(currentTagName,root.getCenter());
+            }
+        }
     }
 }

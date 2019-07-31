@@ -29,7 +29,7 @@
     <left>
         <ScrollPane hbarPolicy="NEVER" prefWidth="180" prefHeight="100" stylesheets="@../css/ScrollPaneStyle.css">
             <VBox fx:id="vBox">
-                <HBox fx:id="hBoxUpload" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onUploadClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/cloud_focused.png"></Image> </ImageView></graphic></Label> <Label stylesheets="@../css/LeftTagStyle.css" style="-fx-text-fill: #409eff;" >上传区</Label></HBox>
+                <HBox fx:id="hBoxUpload" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onUploadClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/cloud_focused.png"></Image> </ImageView></graphic></Label> <Label stylesheets="@../css/LeftTagStyle.css" styleClass="flag" >上传区</Label></HBox>
                 <HBox fx:id="hBoxPhotograph" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPhotographClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/photograph.png"> </Image>  </ImageView></graphic></Label>  <Label stylesheets="@../css/LeftTagStyle.css" >相册</Label></HBox>
                 <HBox fx:id="hBoxPictureBedSettings" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPictureBedClicked" >
                     <Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/picturebedsettings.png"> </Image>  </ImageView></graphic></Label>
