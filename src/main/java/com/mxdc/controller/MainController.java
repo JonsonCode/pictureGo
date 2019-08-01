@@ -209,7 +209,7 @@ public class MainController implements Initializable {
             this.resetLeftTagStatus();   //调用重设标签的图片和文字颜色函数
             ((Label)hBoxUpload.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/cloud_focused.png",30, 25, false, false, false)));
             ((Label)hBoxUpload.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
-            ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().add("flag");
+            ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().add("text");
             this.saveCenterPane();  //保存之前的中间面板对象
             currentTagName = "上传区";
             BorderPane centerPane = (BorderPane) centerPaneMap.get(currentTagName);
@@ -222,7 +222,7 @@ public class MainController implements Initializable {
             this.resetLeftTagStatus();   //调用重设标签的图片和文字颜色函数
             ((Label)hBoxPhotograph.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/photograph_focused.png",30, 25, false, false, false)));
             ((Label)hBoxPhotograph.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
-            ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().add("flag");
+            ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().add("text");
             this.saveCenterPane();  //保存之前的中间面板对象
             currentTagName = "相册";
             if (centerPaneMap.get(currentTagName)!=null){
@@ -241,7 +241,7 @@ public class MainController implements Initializable {
             this.resetLeftTagStatus();  //调用重设标签的图片和文字颜色函数
             ((Label)hBoxPictureBedSettings.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/picturebedsettings_focused.png",30, 25, false, false, false)));
             ((Label)hBoxPictureBedSettings.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
-            ((Label)hBoxPictureBedSettings.getChildren().get(1)).getStyleClass().add("flag");
+            ((Label)hBoxPictureBedSettings.getChildren().get(1)).getStyleClass().add("text");
             if (mouseEvent.getClickCount() == 2){
                 this.onFlagIconClicked(mouseEvent);
             }
@@ -278,13 +278,13 @@ public class MainController implements Initializable {
     private void resetLeftTagStatus(){
         ((Label)hBoxUpload.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/cloud.png",30, 25, false, false, false)));
         ((Label)hBoxUpload.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
-        ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().remove("flag");
+        ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().remove("text");
         ((Label)hBoxPhotograph.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/photograph.png",30, 25, false, false, false)));
         ((Label)hBoxPhotograph.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
-        ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().remove("flag");
+        ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().remove("text");
         ((Label)hBoxPictureBedSettings.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/picturebedsettings.png",30, 25, false, false, false)));
         ((Label)hBoxPictureBedSettings.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
-        ((Label)hBoxPictureBedSettings.getChildren().get(1)).getStyleClass().remove("flag");
+        ((Label)hBoxPictureBedSettings.getChildren().get(1)).getStyleClass().remove("text");
     }
     private void saveCenterPane(){
         if (currentTagName.equals("上传区")){

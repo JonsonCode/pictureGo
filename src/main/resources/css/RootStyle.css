@@ -1,0 +1,7 @@
+#root{
+    -fx-pref-height: 490px;
+    -fx-pref-width: 777px;
+}
+.bordercolor{
+    -fx-border-color: #6e6e6e;
+}

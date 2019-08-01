@@ -31,13 +31,20 @@
     </top>
 
     <center>
-        <VBox>
+        <VBox styleClass="centerVBox">
             <Label><graphic><ImageView fitWidth="80" fitHeight="60"><Image url="@../image/cloud.png" ></Image></ImageView></graphic></Label>
-            <HBox><Label style="-fx-font-size: 1.3em;">将文件拖拽到此处，或</Label><Label style="-fx-font-size: 1.3em;-fx-text-fill: #409EFF;-fx-padding: 0 0 0 5;">点击上传</Label></HBox>
+            <HBox ><Label style="-fx-font-size: 1.3em;">将文件拖拽到此处，或</Label><Label style="-fx-font-size: 1.3em;-fx-text-fill: #409EFF;-fx-padding: 0 0 0 5;">点击上传</Label></HBox>
         </VBox>
     </center>
 
     <bottom>
-        <HBox prefHeight="110" style="-fx-border-width: 1 0 0 0;-fx-border-color: WHITE;"></HBox>
+        <VBox prefHeight="110" style="-fx-spacing: 5;-fx-alignment: center;-fx-padding: 0 0 10 0;">
+            <HBox spacing="5">
+                <Label  style="-fx-pref-width: 330;">链接格式</Label><Label  style="-fx-pref-width: 180;">快捷上传</Label>
+            </HBox>
+            <HBox spacing="5" >
+                <HBox fx:id="linkFormatContainer"><Label fx:id="labelMarkdown" prefWidth="89" styleClass="rightborder" onMouseClicked="#onClickedMarkdown" >Markdown</Label><Label fx:id="labelHTML" prefWidth="69" styleClass="rightborder" onMouseClicked="#onClickedHTML">HTML</Label><Label fx:id="labelURL" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedURL">URL</Label><Label fx:id="labelUBB" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedUBB">UBB</Label><Label fx:id="labelCustom" prefWidth="74" onMouseClicked="#onClickedCustom">Custom</Label></HBox> <Label  style="-fx-pref-width: 180;-fx-pref-height:30;-fx-background-color: #409EFF;-fx-background-radius: 1.8em;-fx-font-size: 1.1em;-fx-text-fill: WHITE;">剪切板图片上传</Label>
+            </HBox>
+        </VBox>
     </bottom>
 </BorderPane>

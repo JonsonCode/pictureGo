@@ -4,17 +4,14 @@
     -fx-border-width: 0 0 0 1;
     -fx-border-color: #6E6E6E;
 }
-.label
-{
+*{
+    -fx-alignment: center;
+}
+.label {
     -fx-text-fill: #EEEEEE;
     -fx-font-family: "Microsoft YaHei";
 }
-HBox
-{
-    -fx-alignment: center;
-}
-VBox
-{
+.centerVBox {
     -fx-spacing: 1.5em;
     -fx-alignment: center;
     -fx-border-color: #DDDDDD;
@@ -24,8 +21,7 @@ VBox
     -fx-border-style: dashed;
 }
 
-.combo-box-base
-{
+.combo-box-base {
     -fx-pref-width: 135px;
     -fx-background-color: #3F3C37;
     -fx-font-size: 20px;
@@ -36,18 +32,38 @@ VBox
     -fx-border-width: 1;
     /*-fx-border-color: RED;*/
 }
-.combo-box .list-cell
-{
+.combo-box .list-cell {
     -fx-background-color: #3F3C37;
     -fx-text-fill: #EEEEEE;
     -fx-padding: 3 0 2 3;
     -fx-border-insets: 0 0 0 0;
     /*-fx-border-color: RED;*/
 }
-.combo-box .list-cell:hover
-{
+.combo-box .list-cell:hover {
     -fx-background-color: #292623;
 }
 .combo-box-base > .arrow-button {
     -fx-padding: 0;
 }
+#linkFormatContainer{
+    -fx-pref-width: 330;
+    -fx-pref-height: 30;
+}
+#linkFormatContainer .label{
+    -fx-pref-height: 30;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #555555;
+}
+.rightborder{
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #DCDFE6;
+}
+#labelMarkdown{
+    -fx-background-color: WHITE;
+    -fx-background-radius: 1.8em 0 0 1.8em;
+}
+#labelCustom{
+    -fx-background-color: WHITE;
+    -fx-background-radius: 0 1.8em 1.8em 0;
+}
+

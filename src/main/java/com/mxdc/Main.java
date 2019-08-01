@@ -55,6 +55,22 @@ public class Main extends Application {
                 }
             }
         });
+        primaryStage.maximizedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                //最大化去掉主窗体的边框样式，去掉class名实现
+                BorderPane root =(BorderPane) primaryStage.getScene().getRoot();
+                if (newValue){
+                    root.getStyleClass().remove("bordercolor");
+                }
+                else {
+                    root.getStyleClass().add("bordercolor");
+                }
+            }
+        });
+
+
+
         /**
          * 下面这段代码是使任务栏图标响应单击事件，当stage的initStyle设置成UNDECORATED时，任务栏图标单击无法最小化窗体
          * 参见StackOverflow的提问：https://stackoverflow.com/questions/26972683/javafx-minimizing-undecorated-stage
@@ -71,8 +87,6 @@ public class Main extends Application {
             user32.SetWindowLong(hwnd, GWL_STYLE, newStyle);
 //		    user32.SetWindowLong(hwnd,0x00020000,0x00080000);
         }
-
-
 
     }
 
