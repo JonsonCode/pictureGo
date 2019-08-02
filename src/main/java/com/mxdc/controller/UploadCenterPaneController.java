@@ -4,13 +4,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import java.io.File;
 
 public class UploadCenterPaneController {
     @FXML
@@ -74,6 +78,38 @@ public class UploadCenterPaneController {
             }
             else {
                 ((Label)labels.get(i)).setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+            }
+        }
+    }
+
+    //拖动到目标范围上面拖动的时候，不停执行提示是链接文件模式
+    @FXML
+    public void onTargetRegionDragOver(DragEvent dragEvent){
+        if (dragEvent.getDragboard().hasFiles()){
+            dragEvent.acceptTransferModes(TransferMode.LINK);
+        }
+    }
+    //拖动到目标范围上并松开鼠标的时候，执行这个DragDropped事件处理
+    @FXML
+    public void onTargetRegionDragDropped(DragEvent dragEvent){
+        if (dragEvent.getDragboard().hasFiles()){
+            System.out.println("You have dragged a file.Location is "+dragEvent.getDragboard().getFiles().get(0).toString());
+        }
+    }
+
+    //"点击上传"Label事件处理,打开系统文件选择对话框，选择图片文件
+    @FXML
+    public void onClickedChooseFile(MouseEvent mouseEvent){
+        if (mouseEvent.getButton() == MouseButton.PRIMARY){
+            FileChooser chooser = new FileChooser();
+            chooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PNG","*.PNG"),
+                    new FileChooser.ExtensionFilter("JPG","*.JPG"),
+                    new FileChooser.ExtensionFilter("All Images","*.*")
+            );
+            File openFile = chooser.showOpenDialog(linkFormatContainer.getScene().getWindow());
+            if (openFile!=null){
+                System.out.println("You have opened a file.Location is "+openFile.toString());
             }
         }
     }

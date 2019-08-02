@@ -31,9 +31,9 @@
     </top>
 
     <center>
-        <VBox styleClass="centerVBox">
+        <VBox styleClass="centerVBox" onDragOver="#onTargetRegionDragOver" onDragDropped="#onTargetRegionDragDropped">
             <Label><graphic><ImageView fitWidth="80" fitHeight="60"><Image url="@../image/cloud.png" ></Image></ImageView></graphic></Label>
-            <HBox ><Label style="-fx-font-size: 1.3em;">将文件拖拽到此处，或</Label><Label style="-fx-font-size: 1.3em;-fx-text-fill: #409EFF;-fx-padding: 0 0 0 5;">点击上传</Label></HBox>
+            <HBox ><Label style="-fx-font-size: 1.3em;">将文件拖拽到此处，或</Label><Label onMouseClicked="#onClickedChooseFile" style="-fx-font-size: 1.3em;-fx-text-fill: #409EFF;-fx-padding: 0 0 0 5;">点击上传</Label></HBox>
         </VBox>
     </center>
 
