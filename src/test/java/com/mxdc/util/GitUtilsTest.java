@@ -76,15 +76,6 @@ public class GitUtilsTest {
     }
 
     @Test
-    public void gitPush() {
-        Repository init = GitUtils.init("G:\\images_bed\\");
-        try {
-            GitUtils.gitPush(init,"1040558191@qq.com","wjy138998");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    @Test
     public void userPassword(){
         UsernamePasswordCredentialsProvider provider = new UsernamePasswordCredentialsProvider("1040558191@qq.com", "wjy138998");
     }
@@ -125,10 +116,4 @@ public class GitUtilsTest {
         System.out.println(new String(cipher.doFinal(result))); // 解密
     }
 
-    @Test
-    public void testAES() throws Exception {
-        String encrypt = GeneralUtils.encrypt("wjy138998", "E01EEED093CB22BB");
-        System.out.println(encrypt);
-        System.out.println(GeneralUtils.decrypt("58FD71338EC2E5FC05B28EF6D02D1C9F", "E01EEED093CB22BB"));
-    }
 }
