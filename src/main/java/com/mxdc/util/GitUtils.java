@@ -1,5 +1,6 @@
 package com.mxdc.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -184,6 +185,24 @@ public class GitUtils {
                 break;
         }
         throw new  Exception("push失败: " + msg);
+    }
+
+
+    /**
+     * 根据文件名返回，github地址
+     * @param fileName 文件名
+     * @return
+     */
+    public static String createURL(String fileName){
+        GithubSetting instance = GithubSetting.getInstance();
+        String projectBase = StringUtils.substringBefore(instance.getProjectPath(), Constants.GIT_PATH);
+        String picPath = instance.getPicPath();
+        String subPath = StringUtils.substringAfter(picPath, projectBase);
+        String raw = StringUtils.replace(instance.getGitRemoteReop(), Constants.GIT_PATH, "/master/");
+        raw = StringUtils.replace(raw, Constants.GIT_DOMAIN, Constants.GIT_RAW_URL);
+
+        String rawHtml  = new StringBuilder(raw).append(subPath).append("/").append(fileName).toString();
+        return rawHtml;
     }
 
 }

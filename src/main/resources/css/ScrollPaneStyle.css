@@ -1,7 +1,7 @@
 .scroll-pane {
-	-fx-background-color: #3F3C37;  /*ÉèÖÃ±³¾°ÑÕÉ«*/
+	-fx-background-color: #3F3C37;  /*è®¾ç½®èƒŒæ™¯é¢œè‰²*/
 	-fx-border-color: #3F3C37;
-	-fx-background:#3F3C37;  /*content£¨¹ö¶¯µÄÄÚÈÝ£©Ìî³ä*/
+	-fx-background:#3F3C37;  /*contentï¼ˆæ»šåŠ¨çš„å†…å®¹ï¼‰å¡«å……*/
 	-fx-background-insets: 0,0;
 }
 .scroll-bar:vertical {
@@ -27,7 +27,7 @@
     -fx-background-insets:  0, 0;
 }
 
-/*¹Ø±Õ°´Å¥:´¹Ö±ºÍË®Æ½µÄ*/
+/*å…³é—­æŒ‰é’®:åž‚ç›´å’Œæ°´å¹³çš„*/
 .scroll-bar .increment-arrow {
 	visibility: hidden;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */

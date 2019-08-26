@@ -1,5 +1,9 @@
 package com.mxdc.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.mxdc.util.Constants;
+import com.mxdc.util.GeneralUtils;
+import com.mxdc.util.GithubSetting;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +19,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +63,9 @@ public class MainController implements Initializable {
         titleBar.setCursor(Cursor.DEFAULT);
         currentTagName = "上传区"; //首次运行的面板是上传区的面板
         centerPaneMap = new HashMap<>();
-
+        this.saveCenterPane();
+        //加载配置属性
+        loadSetting();
     }
 
     //最小化Label按钮事件处理
@@ -296,6 +307,38 @@ public class MainController implements Initializable {
             if (centerPaneMap.get(currentTagName) == null){
                 centerPaneMap.put(currentTagName,root.getCenter());
             }
+        }
+    }
+
+    /**
+     * 加载设置
+     */
+    private void loadSetting(){
+        File file = new File("github.properties");
+        if (file.exists()) {
+
+            String properties  = null;
+            try {
+                properties = FileUtils.readFileToString(file, "UTF-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            JSONObject json = JSONObject.parseObject(properties);
+            GithubSetting setting = GithubSetting.getInstance();
+            String gitPassword = json.getString("gitPassword");
+            if (!StringUtils.isEmpty(gitPassword)) {
+                try {
+                    setting.saveGitPassword(GeneralUtils.decrypt( gitPassword, Constants.KEY));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            setting.saveGitUsername(json.getString("gitUsername"));
+            setting.savePicPath(json.getString("picPath"));
+            setting.saveProjectPath(json.getString("projectPath"));
+            setting.saveGitRemoteReop(json.getString("gitRemoteReop"));
+
         }
     }
 }

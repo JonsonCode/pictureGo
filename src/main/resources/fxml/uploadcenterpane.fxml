@@ -19,11 +19,11 @@
             <ComboBox value="GitHub图床">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="SM.MS图床"/>
-                        <String fx:value="腾讯云COS"/>
-                        <String fx:value="微博图床"/>
+<!--                        <String fx:value="SM.MS图床"/>-->
+<!--                        <String fx:value="腾讯云COS"/>-->
+<!--                        <String fx:value="微博图床"/>-->
                         <String fx:value="GitHub图床"/>
-                        <String fx:value="七牛图床"/>
+<!--                        <String fx:value="七牛图床"/>-->
                     </FXCollections>
                 </items>
             </ComboBox>
@@ -43,7 +43,14 @@
                 <Label  style="-fx-pref-width: 330;">链接格式</Label><Label  style="-fx-pref-width: 180;">快捷上传</Label>
             </HBox>
             <HBox spacing="5" >
-                <HBox fx:id="linkFormatContainer"><Label fx:id="labelMarkdown" prefWidth="89" styleClass="rightborder" onMouseClicked="#onClickedMarkdown" >Markdown</Label><Label fx:id="labelHTML" prefWidth="69" styleClass="rightborder" onMouseClicked="#onClickedHTML">HTML</Label><Label fx:id="labelURL" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedURL">URL</Label><Label fx:id="labelUBB" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedUBB">UBB</Label><Label fx:id="labelCustom" prefWidth="74" onMouseClicked="#onClickedCustom">Custom</Label></HBox> <Label  style="-fx-pref-width: 180;-fx-pref-height:30;-fx-background-color: #409EFF;-fx-background-radius: 1.8em;-fx-font-size: 1.1em;-fx-text-fill: WHITE;">剪切板图片上传</Label>
+                <HBox fx:id="linkFormatContainer">
+                    <Label fx:id="labelMarkdown" prefWidth="89" styleClass="rightborder" onMouseClicked="#onClickedMarkdown" >Markdown</Label>
+                    <Label fx:id="labelHTML" prefWidth="69" styleClass="rightborder" onMouseClicked="#onClickedHTML">HTML</Label>
+                    <Label fx:id="labelURL" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedURL" style="-fx-background-color: rgb(64,158,255)">URL</Label>
+                    <Label fx:id="labelUBB" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedUBB">UBB</Label>
+                    <Label fx:id="labelCustom" prefWidth="74" onMouseClicked="#onClickedCustom">Custom</Label>
+                </HBox>
+                <Label onMouseClicked="#onClickedClipboard" style="-fx-pref-width: 180;-fx-pref-height:30;-fx-background-color: #409EFF;-fx-background-radius: 1.8em;-fx-font-size: 1.1em;-fx-text-fill: WHITE;">剪切板图片上传</Label>
             </HBox>
         </VBox>
     </bottom>

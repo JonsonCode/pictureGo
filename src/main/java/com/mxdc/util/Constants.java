@@ -16,4 +16,7 @@ public interface Constants {
     String GIT_SSH = "git@";
     String GIT_HTTPS = "https://";
     String GIT_MASTER_HEAD = "refs/heads/master";
+    String GIT_RAW_URL = "raw.githubusercontent.com";
+    String GIT_DOMAIN = "github.com";
+    String KEY = "E01EEED093CB22BB";
 }

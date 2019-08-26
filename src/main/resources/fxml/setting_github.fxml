@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mxdc.controller.SettingGithubController"
+            fx:id="settingGithub"
+            stylesheets="@../css/SettingGithubStyle.css"
+            prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <VBox >
+            <children>
+                <GridPane alignment="CENTER" hgap="15.0" vgap="15.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints minWidth="10.0" prefWidth="250.0"/>
+                        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                    </rowConstraints>
+                    <children>
+
+                        <!--用户名-->
+                        <VBox alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label contentDisplay="CENTER" text="用户名" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                              maxWidth="150.0">
+                            <JFXTextField fx:id="user"  prefWidth="100.0"  />
+                        </VBox>
+                        <!-- 用户密码 -->
+                        <VBox alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label contentDisplay="CENTER" text="密码" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                              maxWidth="150.0">
+                            <JFXPasswordField fx:id="password"  />
+                        </VBox>
+                        <!-- 项目目录 -->
+                        <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0"
+                              GridPane.rowIndex="2">
+                            <Label contentDisplay="CENTER" text="项目目录:" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"
+                              GridPane.rowIndex="2">
+                            <JFXTextField fx:id="projectPath" prefWidth="200.0"/>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2"
+                              GridPane.rowIndex="2">
+                            <Label  styleClass="button-folder" onMouseClicked="#chooseProjectPath"/>
+                        </VBox>
+                        <!-- 图片保存目录 -->
+                        <VBox alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                            <Label contentDisplay="CENTER" text="图片保存目录:" styleClass="text-dark"/>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"
+                              GridPane.rowIndex="3">
+                            <JFXTextField fx:id="imgPath" prefWidth="200.0"/>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2"
+                              GridPane.rowIndex="3">
+                            <Label  styleClass="button-folder" onMouseClicked="#chooseImgPath"/>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2"
+                              GridPane.rowIndex="4">
+                            <Button onMouseClicked="#saveConfigure">保存</Button>
+                        </VBox>
+                    </children>
+                </GridPane>
+
+            </children>
+        </VBox>
+
+
+    </center>
+</BorderPane>
