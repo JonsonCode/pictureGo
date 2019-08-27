@@ -13,14 +13,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.lib.Repository;
 
@@ -51,11 +47,20 @@ public class UploadCenterPaneController {
     /** Custom链接格式的Label labelyType = 5 */
     @FXML
     private Label labelCustom;
+
     /** 初始化labelTyoe为 URL */
     private int labelType = 3;
 
+    /** 主舞台底下的Stack(堆)容器，最底下是默认显示的borderpane容器，往上面加做操作的信息提示（通过添加label组件） */
+    private StackPane stageStackPane;
+
+    /**设置stageStackPane引用的函数*/
+    public void setStageStackPane(StackPane stageStackPane){
+        this.stageStackPane = stageStackPane;
+    }
+
     /**
-     * M arkdown链接格式的Label事件处理
+     * Markdown链接格式的Label事件处理
      * @param mouseEvent
      */
     @FXML
@@ -146,10 +151,11 @@ public class UploadCenterPaneController {
     public void onTargetRegionDragDropped(DragEvent dragEvent){
         GithubSetting githubSetting = GithubSetting.getInstance();
         if (StringUtils.isEmpty(githubSetting.getPicPath())){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+           /* Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setContentText("请先配置图片路径");
-            alert.showAndWait();
+            alert.showAndWait();*/
+            GeneralUtils.toastInfo((StackPane) linkFormatContainer.getScene().getRoot(),new Label("请先配置图片路径"));
             return;
         }
         if (dragEvent.getDragboard().hasFiles()){
@@ -172,7 +178,8 @@ public class UploadCenterPaneController {
     public void onClickedChooseFile(MouseEvent mouseEvent){
         GithubSetting githubSetting = GithubSetting.getInstance();
         if (StringUtils.isEmpty(githubSetting.getPicPath())){
-            GeneralUtils.messageDialog("Warning Dialog","请先配置图片路径",Alert.AlertType.WARNING);
+//            GeneralUtils.messageDialog("Warning Dialog","请先配置图片路径",Alert.AlertType.WARNING);
+            GeneralUtils.toastInfo((StackPane) linkFormatContainer.getScene().getRoot(),new Label("请先配置图片路径"));
             return;
         }
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
@@ -199,7 +206,8 @@ public class UploadCenterPaneController {
                     Transferable trans = new StringSelection(link);
                     // 把文本内容设置到系统剪贴板
                     clipboard.setContents(trans, null);
-                    GeneralUtils.messageDialog("","链接已复制到粘贴版",Alert.AlertType.INFORMATION);
+//                    GeneralUtils.messageDialog("","链接已复制到粘贴版",Alert.AlertType.INFORMATION);
+                    GeneralUtils.toastInfo((StackPane) linkFormatContainer.getScene().getRoot(),new Label("链接已复制到粘贴版"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -222,7 +230,8 @@ public class UploadCenterPaneController {
         String urlLink = GitUtils.createURL(fileName);
         String imageDataPath = StringUtils.replace(githubSetting.getProjectPath(), Constants.GIT_PATH, "imageUrl.data");
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            GeneralUtils.messageDialog("","请先设置用户和密码",Alert.AlertType.WARNING);
+//            GeneralUtils.messageDialog("","请先设置用户和密码",Alert.AlertType.WARNING);
+            GeneralUtils.toastInfo((StackPane) linkFormatContainer.getScene().getRoot(),new Label("请先设置用户和密码"));
             return null;
         }
         try {
@@ -258,7 +267,8 @@ public class UploadCenterPaneController {
     public void onClickedClipboard(MouseEvent mouseEvent) {
         GithubSetting githubSetting = GithubSetting.getInstance();
         if (StringUtils.isEmpty(githubSetting.getPicPath())){
-            GeneralUtils.messageDialog("Warning Dialog","请先配置图片路径",Alert.AlertType.WARNING);
+//            GeneralUtils.messageDialog("Warning Dialog","请先配置图片路径",Alert.AlertType.WARNING);
+            GeneralUtils.toastInfo((StackPane) linkFormatContainer.getScene().getRoot(),new Label("请先配置图片路径"));
             return;
         }
         //创建剪切板对象
@@ -286,7 +296,8 @@ public class UploadCenterPaneController {
                     Transferable trans = new StringSelection(link);
                     // 把文本内容设置到系统剪贴板
                     clipboard.setContents(trans, null);
-                    GeneralUtils.messageDialog("","链接已复制到粘贴版",Alert.AlertType.INFORMATION);
+//                    GeneralUtils.messageDialog("","链接已复制到粘贴版",Alert.AlertType.INFORMATION);
+                    GeneralUtils.toastInfo((StackPane) linkFormatContainer.getScene().getRoot(),new Label("链接已复制到粘贴版"));
                 } catch (UnsupportedFlavorException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -50,7 +51,7 @@ public class Main extends Application {
                 }
                 //修复窗体在非最大化状态下单击最小化按钮最小化窗体后再恢复窗体时最小化按钮图片没有更新的问题
                 else {
-                    ObservableList<Node> labelList = ((HBox)(((BorderPane)(((BorderPane)primaryStage.getScene().getRoot()).getTop())).getRight())).getChildren();
+                    ObservableList<Node> labelList = ((HBox)(((BorderPane)(((BorderPane)(((StackPane)primaryStage.getScene().getRoot()).getChildren().get(0))).getTop())).getRight())).getChildren();
                     ((Label)labelList.get(0)).setGraphic(new ImageView(new Image("/image/MinimizeDefault.png",46,32,false,false,false)));
                 }
             }
@@ -59,7 +60,7 @@ public class Main extends Application {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 //最大化去掉主窗体的边框样式，去掉class名实现
-                BorderPane root =(BorderPane) primaryStage.getScene().getRoot();
+                BorderPane root = (BorderPane) ((StackPane) primaryStage.getScene().getRoot()).getChildren().get(0);
                 if (newValue){
                     root.getStyleClass().remove("bordercolor");
                 }

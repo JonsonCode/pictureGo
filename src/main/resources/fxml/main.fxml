@@ -4,43 +4,49 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id="root"
-            fx:controller="com.mxdc.controller.MainController"
-            stylesheets="@../css/RootStyle.css"
-            styleClass="bordercolor">
-    <top>
-        <BorderPane xmlns="http://javafx.com/javafx"
-                    xmlns:fx="http://javafx.com/fxml"
-                    fx:id="titleBar" onMousePressed="#onTitleBarPressed" onMouseDragged="#onTitleBarDragged" onMouseClicked="#onTitleBarClicked"
-                    stylesheets="@../css/TitleBarStyle.css">
-            <left><HBox fx:id="left_HBox"><Label><graphic><ImageView fitWidth="15" fitHeight="15"><Image url="@../image/ApplicationIcon.png"></Image></ImageView></graphic></Label><Label fx:id="labelTitle">Picture Bed</Label></HBox></left>
-            <right>
-                <HBox fx:id="right_HBox">
-                    <Label fx:id="labelMinimize" onMouseClicked="#onClickedMinimize" onMouseEntered="#onEnteredMinimize" onMouseExited="#onExitedMinimize" ><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/MinimizeDefault.png"></Image></ImageView></graphic></Label>
-                    <Label fx:id="labelMaximize" onMouseClicked="#onClickedMaximize" onMouseEntered="#onEnteredMaximize" onMouseExited="#onExitedMaximize"><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/MaximizeDefault.png"></Image></ImageView></graphic></Label>
-                    <Label fx:id="labelExit" onMouseClicked="#onClickedExit" onMouseEntered="#onEnteredExit" onMouseExited="#onExitedExit"><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/ExitDefault.png"></Image></ImageView></graphic></Label>
-                </HBox>
-            </right>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:id="stageStackPane"
+           fx:controller="com.mxdc.controller.MainController">
+    <children>
+        <BorderPane
+                    fx:id="root"
+                    stylesheets="@../css/RootStyle.css"
+                    styleClass="bordercolor">
+            <top>
+                <BorderPane xmlns="http://javafx.com/javafx"
+                            xmlns:fx="http://javafx.com/fxml"
+                            fx:id="titleBar" onMousePressed="#onTitleBarPressed" onMouseDragged="#onTitleBarDragged" onMouseClicked="#onTitleBarClicked"
+                            stylesheets="@../css/TitleBarStyle.css">
+                    <left><HBox fx:id="left_HBox"><Label><graphic><ImageView fitWidth="15" fitHeight="15"><Image url="@../image/ApplicationIcon.png"></Image></ImageView></graphic></Label><Label fx:id="labelTitle">Picture Bed</Label></HBox></left>
+                    <right>
+                        <HBox fx:id="right_HBox">
+                            <Label fx:id="labelMinimize" onMouseClicked="#onClickedMinimize" onMouseEntered="#onEnteredMinimize" onMouseExited="#onExitedMinimize" ><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/MinimizeDefault.png"></Image></ImageView></graphic></Label>
+                            <Label fx:id="labelMaximize" onMouseClicked="#onClickedMaximize" onMouseEntered="#onEnteredMaximize" onMouseExited="#onExitedMaximize"><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/MaximizeDefault.png"></Image></ImageView></graphic></Label>
+                            <Label fx:id="labelExit" onMouseClicked="#onClickedExit" onMouseEntered="#onEnteredExit" onMouseExited="#onExitedExit"><graphic><ImageView fitHeight="32" fitWidth="46"><Image url="@../image/ExitDefault.png"></Image></ImageView></graphic></Label>
+                        </HBox>
+                    </right>
+                </BorderPane>
+            </top>
+
+            <left>
+                <ScrollPane hbarPolicy="NEVER" prefWidth="180" prefHeight="100" stylesheets="@../css/ScrollPaneStyle.css">
+                    <VBox fx:id="vBox">
+                        <HBox fx:id="hBoxUpload" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onUploadClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/cloud_focused.png"></Image> </ImageView></graphic></Label> <Label stylesheets="@../css/LeftTagStyle.css" styleClass="text" >上传区</Label></HBox>
+                        <HBox fx:id="hBoxPhotograph" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPhotographClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/photograph.png"> </Image>  </ImageView></graphic></Label>  <Label stylesheets="@../css/LeftTagStyle.css" >相册</Label></HBox>
+                        <HBox fx:id="hBoxPictureBedSettings" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPictureBedClicked" >
+                            <Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/picturebedsettings.png"> </Image>  </ImageView></graphic></Label>
+                            <Label stylesheets="@../css/LeftTagStyle.css" >图床设置</Label>
+                            <Label fx:id="flagicon" onMouseClicked="#onFlagIconClicked"><graphic><ImageView fitWidth="10" fitHeight="10"><Image url="@../image/fold.png"> </Image>  </ImageView></graphic></Label>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </left>
+
+            <center>
+                <fx:include source="uploadcenterpane.fxml"></fx:include>
+            </center>
         </BorderPane>
-    </top>
+    </children>
+</StackPane>
 
-    <left>
-        <ScrollPane hbarPolicy="NEVER" prefWidth="180" prefHeight="100" stylesheets="@../css/ScrollPaneStyle.css">
-            <VBox fx:id="vBox">
-                <HBox fx:id="hBoxUpload" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onUploadClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/cloud_focused.png"></Image> </ImageView></graphic></Label> <Label stylesheets="@../css/LeftTagStyle.css" styleClass="text" >上传区</Label></HBox>
-                <HBox fx:id="hBoxPhotograph" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPhotographClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/photograph.png"> </Image>  </ImageView></graphic></Label>  <Label stylesheets="@../css/LeftTagStyle.css" >相册</Label></HBox>
-                <HBox fx:id="hBoxPictureBedSettings" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPictureBedClicked" >
-                    <Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/picturebedsettings.png"> </Image>  </ImageView></graphic></Label>
-                    <Label stylesheets="@../css/LeftTagStyle.css" >图床设置</Label>
-                    <Label fx:id="flagicon" onMouseClicked="#onFlagIconClicked"><graphic><ImageView fitWidth="10" fitHeight="10"><Image url="@../image/fold.png"> </Image>  </ImageView></graphic></Label>
-                </HBox>
-            </VBox>
-        </ScrollPane>
-    </left>
-
-    <center>
-        <fx:include source="uploadcenterpane.fxml"></fx:include>
-    </center>
-</BorderPane>

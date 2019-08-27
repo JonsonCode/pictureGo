@@ -266,8 +266,8 @@ public class MainController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingsitem.fxml"));
 
                     settingItemsPane = loader.load();
-                    SettingsItemController settingsItemController =  loader.getController();
-                    settingsItemController.setRoot(root);
+                    SettingItemsController settingItemsController =  loader.getController();
+                    settingItemsController.setRoot(root);
                 }
                 catch (Exception e){
                     e.printStackTrace();

@@ -6,10 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class SettingsItemController{
+public class SettingItemsController {
 
     private BorderPane root;  //主窗体BorderPane
 
@@ -17,10 +18,6 @@ public class SettingsItemController{
         this.root = root;  //设置引用
     }
 
-    @FXML
-    public void onTest(){
-        root.setCenter(new Label("tstst"));
-    }
 
     /**
      * 设置github
@@ -32,6 +29,6 @@ public class SettingsItemController{
         SettingGithubController controller = loader.getController();
         controller.init();
         root.setCenter(githubSetting);
-
+        controller.setStageStackPane((StackPane) root.getScene().getRoot());
     }
 }

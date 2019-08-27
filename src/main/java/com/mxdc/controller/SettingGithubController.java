@@ -11,7 +11,9 @@ import com.mxdc.util.GitUtils;
 import com.mxdc.util.GithubSetting;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
@@ -41,6 +43,14 @@ public class SettingGithubController {
     /** 本地图片路径 */
     @FXML
     private JFXTextField imgPath;
+
+    /** 主舞台底下的Stack(堆)容器，最底下是默认显示的borderpane容器，往上面加做操作的信息提示（通过添加label组件） */
+    private StackPane stageStackPane;
+
+    /**设置stageStackPane引用的函数*/
+    public void setStageStackPane(StackPane stageStackPane){
+        this.stageStackPane = stageStackPane;
+    }
 
     public void init() {
 
@@ -75,10 +85,11 @@ public class SettingGithubController {
             String remoteUrl = GitUtils.getRemoteUrl(GitUtils.init(gitRepositoryPaty.getAbsolutePath()));
             GithubSetting.getInstance().saveGitRemoteReop(remoteUrl);
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+         /*   Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning Dialog");
             alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            alert.showAndWait();*/
+            GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label(e.getMessage()));
             this.projectPath.setText("");
         }
     }
@@ -91,10 +102,11 @@ public class SettingGithubController {
         String projectPath = GithubSetting.getInstance().getProjectPath();
 
         if (StringUtils.isEmpty(projectPath)){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+           /* Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning Dialog");
             alert.setContentText("请先选择项目目录");
-            alert.showAndWait();
+            alert.showAndWait();*/
+            GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("请先选择项目目录"));
             return;
         }
         File projectFile = new File(projectPath);
@@ -115,10 +127,11 @@ public class SettingGithubController {
             imgPath.setText(file.getAbsolutePath());
             GithubSetting.getInstance().savePicPath(file.getAbsolutePath());
         }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+           /* Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning Dialog");
             alert.setContentText("图片路径不在git项目中");
-            alert.showAndWait();
+            alert.showAndWait();*/
+            GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("图片路径不在git项目中"));
         }
     }
     /**
@@ -130,19 +143,21 @@ public class SettingGithubController {
         String password = this.password.getText();
         // 如果账号或密码为空弹窗警告
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            /*Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setContentText("账号或密码不为空");
-            alert.showAndWait();
+            alert.showAndWait();*/
+            GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("账号或密码不为空"));
             return;
         }
         String projectPath = GithubSetting.getInstance().getProjectPath();
         String picPath = GithubSetting.getInstance().getPicPath();
         if (StringUtils.isEmpty(projectPath) || StringUtils.isEmpty(picPath)){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+           /* Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setContentText("项目路径和图片存储路径不为空");
-            alert.showAndWait();
+            alert.showAndWait();*/
+            GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("项目路径和图片存储路径不为空"));
             return;
         }
         GithubSetting.getInstance().saveGitUsername(userName);
@@ -156,7 +171,8 @@ public class SettingGithubController {
         githubProperties.saveGitPassword(password);
         try {
             IOUtils.write(properties,new FileOutputStream("github.properties"),"UTF-8");
-            GeneralUtils.messageDialog("Scess Dialog","保存成功",Alert.AlertType.INFORMATION);
+//            GeneralUtils.messageDialog("Scess Dialog","保存成功",Alert.AlertType.INFORMATION);
+            GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("保存成功"));
         } catch (IOException e) {
             e.printStackTrace();
         }

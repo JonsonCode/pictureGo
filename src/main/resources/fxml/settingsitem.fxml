@@ -5,9 +5,9 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.mxdc.controller.SettingsItemController">
+            fx:controller="com.mxdc.controller.SettingItemsController">
 
-    <HBox stylesheets="/css/SettingsItemStyle.css" onMouseClicked="#onTest"><Label stylesheets="/css/SettingsItemStyle.css">SM.MS图床</Label></HBox>
+    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">SM.MS图床</Label></HBox>
     <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">腾讯云COS</Label></HBox>
     <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">微博图床</Label></HBox>
     <HBox stylesheets="/css/SettingsItemStyle.css" onMouseClicked="#onSettingGithub"><Label stylesheets="/css/SettingsItemStyle.css">GitHub图床</Label></HBox>
