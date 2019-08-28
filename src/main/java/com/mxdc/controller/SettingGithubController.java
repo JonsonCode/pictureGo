@@ -12,6 +12,7 @@ import com.mxdc.util.GithubSetting;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
@@ -59,8 +60,6 @@ public class SettingGithubController {
     this.password.setText(setting.getGitPassword());
     this.imgPath.setText(setting.getPicPath());
     this.projectPath.setText(setting.getProjectPath());
-
-
     }
 
     /**

@@ -116,4 +116,13 @@ public class GitUtilsTest {
         System.out.println(new String(cipher.doFinal(result))); // 解密
     }
 
+    @Test
+    public void move(){
+         short hotKeyFlag = 0x00;
+         final short MASK_CTRL = 1 << 0;
+         final short MASK_ALT = 1 << 1;
+         final short MASK_U = 1 << 2;
+
+        System.out.println(hotKeyFlag | MASK_ALT);
+    }
 }
