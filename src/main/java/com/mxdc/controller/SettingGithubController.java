@@ -12,6 +12,7 @@ import com.mxdc.util.GithubSetting;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
@@ -33,16 +34,16 @@ public class SettingGithubController {
 
     /** github用户名 */
     @FXML
-    private JFXTextField user;
+    private TextField user;
     /** github用户密码 */
     @FXML
-    private JFXPasswordField password;
+    private TextField password;
     /** 本地项目路径 */
     @FXML
-    private JFXTextField projectPath;
+    private TextField projectPath;
     /** 本地图片路径 */
     @FXML
-    private JFXTextField imgPath;
+    private TextField imgPath;
 
     /** 主舞台底下的Stack(堆)容器，最底下是默认显示的borderpane容器，往上面加做操作的信息提示（通过添加label组件） */
     private StackPane stageStackPane;

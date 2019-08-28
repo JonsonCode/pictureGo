@@ -38,19 +38,19 @@
 
                         <!--用户名-->
                         <VBox alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <Label contentDisplay="CENTER" text="用户名" />
+                            <Label contentDisplay="CENTER" text="用户名:" />
                         </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0"
                               maxWidth="150.0">
-                            <JFXTextField fx:id="user"  prefWidth="100.0"  />
+                            <TextField fx:id="user"  prefWidth="100.0"  />
                         </VBox>
                         <!-- 用户密码 -->
                         <VBox alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <Label contentDisplay="CENTER" text="密码" />
+                            <Label contentDisplay="CENTER" text="密码:" />
                         </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1"
                               maxWidth="150.0">
-                            <JFXPasswordField fx:id="password"  />
+                            <PasswordField fx:id="password"  />
                         </VBox>
                         <!-- 项目目录 -->
                         <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0"
@@ -59,7 +59,7 @@
                         </VBox>
                         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"
                               GridPane.rowIndex="2">
-                            <JFXTextField fx:id="projectPath" prefWidth="200.0"/>
+                            <TextField fx:id="projectPath" prefWidth="200.0"/>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2"
                               GridPane.rowIndex="2">
@@ -71,7 +71,7 @@
                         </VBox>
                         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"
                               GridPane.rowIndex="3">
-                            <JFXTextField fx:id="imgPath" prefWidth="200.0"/>
+                            <TextField fx:id="imgPath" prefWidth="200.0"/>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2"
                               GridPane.rowIndex="3">

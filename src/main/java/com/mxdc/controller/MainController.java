@@ -263,7 +263,7 @@ public class MainController implements Initializable {
             if (settingItemsPane == null){
                 try {
                     //加载“图床设置”选项，并设置引用主窗体root
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingsitem.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingitems.fxml"));
 
                     settingItemsPane = loader.load();
                     SettingItemsController settingItemsController =  loader.getController();
