@@ -3,14 +3,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.mxdc.controller.SettingItemsController">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      stylesheets="/css/SettingsItemStyle.css"
+      fx:id="vBoxContainer"
+      fx:controller="com.mxdc.controller.SettingItemsController">
 
-    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">SM.MS图床</Label></HBox>
-    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">腾讯云COS</Label></HBox>
-    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">微博图床</Label></HBox>
-    <HBox stylesheets="/css/SettingsItemStyle.css" onMouseClicked="#onSettingGithub"><Label stylesheets="/css/SettingsItemStyle.css">GitHub图床</Label></HBox>
-    <HBox stylesheets="/css/SettingsItemStyle.css"><Label stylesheets="/css/SettingsItemStyle.css">七牛图床</Label></HBox>
+    <HBox><Label>SM.MS图床</Label></HBox>
+    <HBox><Label>腾讯云COS</Label></HBox>
+    <HBox><Label>微博图床</Label></HBox>
+    <HBox onMouseClicked="#onClickedSettingGithub"><Label fx:id="labelGithub">GitHub图床</Label></HBox>
+    <HBox onMouseClicked="#onClickedSevenCattle"><Label fx:id="labelSevenCattle">七牛图床</Label></HBox>
 
 </VBox>

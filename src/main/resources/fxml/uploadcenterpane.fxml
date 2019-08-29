@@ -50,7 +50,7 @@
                     <Label fx:id="labelUBB" prefWidth="59" styleClass="rightborder" onMouseClicked="#onClickedUBB">UBB</Label>
                     <Label fx:id="labelCustom" prefWidth="74" onMouseClicked="#onClickedCustom">Custom</Label>
                 </HBox>
-                <Label onMouseClicked="#onClickedClipboard" style="-fx-pref-width: 180;-fx-pref-height:30;-fx-background-color: #409EFF;-fx-background-radius: 1.8em;-fx-font-size: 1.1em;-fx-text-fill: WHITE;">剪切板图片上传</Label>
+                <Label onMouseClicked="#onClickedClipboard"  style="-fx-pref-width: 180;-fx-pref-height:30;-fx-background-color: #409EFF;-fx-background-radius: 1.8em;-fx-font-size: 1.1em;-fx-text-fill: WHITE;">剪切板图片上传</Label>
             </HBox>
         </VBox>
     </bottom>

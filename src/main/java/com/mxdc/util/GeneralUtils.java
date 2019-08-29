@@ -1,15 +1,29 @@
 package com.mxdc.util;
 
 import com.jfoenix.controls.JFXDialog;
+import com.mxdc.controller.UploadCenterPaneController;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MXDC
@@ -18,6 +32,13 @@ import javax.crypto.spec.SecretKeySpec;
 public class GeneralUtils {
 
     private static final String KEY_AES = "AES";
+    private static  StackPane root;
+    private static UploadCenterPaneController upload = new UploadCenterPaneController();
+
+    public static void setRoot(StackPane root) {
+        GeneralUtils.root = root;
+    }
+
     /**
      * 消息弹窗
      * @param title 标题
@@ -43,12 +64,72 @@ public class GeneralUtils {
         stageStackPane.getChildren().add(fadingLabel);
         //动画完成后移除label组件
         fadeTransition.setOnFinished(fade->{
-            stageStackPane.getChildren().remove(1);
+            stageStackPane.getChildren().remove(fadingLabel);
         });
         //开始播放渐变动画提示
         fadeTransition.play();
     }
+    /**弹出信息提示动画的函数
+     * @param fadingLabel 信息提示的label
+     * */
+    public static void toastInfo(Label fadingLabel){
+        toastInfo(root,fadingLabel);
+    }
 
+    /**
+     * 添加快捷键
+     */
+    public static void addShortcutKey(){
+        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.OFF);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GeneralUtils.addUploadShortcutKey();
+            }
+        }).start();
+    }
+
+    /**
+     * 图片上传快捷键
+     */
+    public static void addUploadShortcutKey()  {
+        try {
+            GlobalScreen.registerNativeHook();
+        }
+        catch (NativeHookException ex) {
+            System.err.println("There was a problem registering the native hook.");
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
+
+        GlobalScreen.addNativeKeyListener(new NativeKeyListener() {
+            @Override
+            public void nativeKeyPressed(NativeKeyEvent e) {
+                boolean isAltPressed = (e.getModifiers() & NativeKeyEvent.ALT_MASK) != 0;
+                boolean isCtrlPressed = (e.getModifiers() & NativeKeyEvent.CTRL_MASK) != 0;
+                boolean isUpressed = e.getKeyCode() == NativeKeyEvent.VC_U;
+                if (isAltPressed & isCtrlPressed & isUpressed){
+                    Platform.runLater(()->{
+                        upload.onClickedClipboard(null);
+                    });
+                }
+            }
+            @Override
+            public void nativeKeyReleased(NativeKeyEvent e) {
+            }
+            @Override
+            public void nativeKeyTyped(NativeKeyEvent e) {
+            }
+        });
+    }
+    /**
+     * AES加密
+     * @param src
+     * @param key
+     * @return
+     * @throws Exception
+     */
     public static String encrypt(String src, String key) throws Exception {
         if (key == null || key.length() != 16) {
             throw new Exception("key不滿足條件");
@@ -61,6 +142,13 @@ public class GeneralUtils {
         return byte2hex(encrypted);
     }
 
+    /**
+     * AES解密
+     * @param src
+     * @param key
+     * @return
+     * @throws Exception
+     */
     public static String decrypt(String src, String key) throws Exception {
         if (key == null || key.length() != 16) {
             throw new Exception("key不滿足條件");
@@ -103,5 +191,21 @@ public class GeneralUtils {
             }
         }
         return hs.toUpperCase();
+    }
+
+    /**
+     * 保存粘贴板的图片到本地
+     * @param desFile 保存后的图片路径
+     * @param image 粘贴板二进制图片
+     */
+    public static void saveClipboardImage(File desFile, Image image) throws IOException {
+        //转成jpg
+        //BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        //转成png
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_BGR);
+        Graphics2D g = bufferedImage.createGraphics();
+        g.drawImage(image, null, null);
+        //ImageIO.write((RenderedImage)bufferedImage, "jpg", file);
+        ImageIO.write((RenderedImage)bufferedImage, "jpg", desFile);
     }
 }

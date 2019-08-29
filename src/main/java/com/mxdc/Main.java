@@ -1,5 +1,6 @@
 package com.mxdc;
 
+import com.mxdc.util.GeneralUtils;
 import com.mxdc.util.ResizeUtils;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.User32;
@@ -89,6 +90,14 @@ public class Main extends Application {
 //		    user32.SetWindowLong(hwnd,0x00020000,0x00080000);
         }
 
+
+        /**
+         * **********************************************
+         * 添加快捷键
+         * **********************************************
+         */
+        GeneralUtils.setRoot((StackPane) primaryStage.getScene().getRoot());
+        GeneralUtils.addShortcutKey();
     }
 
     public static void main(String[] args) {

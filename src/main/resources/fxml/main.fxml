@@ -34,7 +34,7 @@
                     <VBox fx:id="vBox">
                         <HBox fx:id="hBoxUpload" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onUploadClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/cloud_focused.png"></Image> </ImageView></graphic></Label> <Label stylesheets="@../css/LeftTagStyle.css" styleClass="text" >上传区</Label></HBox>
                         <HBox fx:id="hBoxPhotograph" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPhotographClicked"><Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/photograph.png"> </Image>  </ImageView></graphic></Label>  <Label stylesheets="@../css/LeftTagStyle.css" >相册</Label></HBox>
-                        <HBox fx:id="hBoxPictureBedSettings" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPictureBedClicked" >
+                        <HBox fx:id="hBoxPictureBedSettings" stylesheets="@../css/LeftTagStyle.css" onMouseClicked="#onPictureBedSettingsClicked" >
                             <Label><graphic><ImageView fitWidth="30" fitHeight="25"><Image url="@../image/picturebedsettings.png"> </Image>  </ImageView></graphic></Label>
                             <Label stylesheets="@../css/LeftTagStyle.css" >图床设置</Label>
                             <Label fx:id="flagicon" onMouseClicked="#onFlagIconClicked"><graphic><ImageView fitWidth="10" fitHeight="10"><Image url="@../image/fold.png"> </Image>  </ImageView></graphic></Label>

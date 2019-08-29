@@ -189,20 +189,24 @@ public class GitUtils {
 
 
     /**
-     * 根据文件名返回，github地址
+     * 根据文件名返回，图片在github的URL地址
      * @param fileName 文件名
      * @return
      */
     public static String createURL(String fileName){
-        GithubSetting instance = GithubSetting.getInstance();
-        String projectBase = StringUtils.substringBefore(instance.getProjectPath(), Constants.GIT_PATH);
-        String picPath = instance.getPicPath();
+        // 获取github配置
+        GithubSetting githubSetting = GithubSetting.getInstance();
+        // 本地项目路径
+        String projectBase = StringUtils.substringBefore(githubSetting.getProjectPath(), Constants.GIT_PATH);
+        // 本地图片路径
+        String picPath = githubSetting.getPicPath();
+        // 相对于本地项目路径的 本地图片路径
         String subPath = StringUtils.substringAfter(picPath, projectBase);
-        String raw = StringUtils.replace(instance.getGitRemoteReop(), Constants.GIT_PATH, "/master/");
+        String raw = StringUtils.replace(githubSetting.getGitRemoteReop(), Constants.GIT_PATH, "/master/");
         raw = StringUtils.replace(raw, Constants.GIT_DOMAIN, Constants.GIT_RAW_URL);
 
-        String rawHtml  = new StringBuilder(raw).append(subPath).append("/").append(fileName).toString();
-        return rawHtml;
+        String rawUrl  = new StringBuilder(raw).append(subPath).append("/").append(fileName).toString();
+        return rawUrl;
     }
 
 }

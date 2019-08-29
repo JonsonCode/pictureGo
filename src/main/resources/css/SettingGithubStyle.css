@@ -12,7 +12,7 @@
     -fx-font-weight: bold;
     -fx-font-family: "microsoft yahei";
 }
-.text-field,.password-field,.button{
+.text-field,.button{
     -fx-background-color: #FFFFFF;
 }
 

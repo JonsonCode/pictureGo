@@ -3,8 +3,6 @@ package com.mxdc.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONReader;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
 import com.mxdc.util.Constants;
 import com.mxdc.util.GeneralUtils;
 import com.mxdc.util.GitUtils;
@@ -13,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
@@ -21,9 +20,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.event.FocusListener;
 import java.io.*;
-import java.util.Collection;
 
 /**
  * 配置github相关信息
@@ -60,8 +57,6 @@ public class SettingGithubController {
     this.password.setText(setting.getGitPassword());
     this.imgPath.setText(setting.getPicPath());
     this.projectPath.setText(setting.getProjectPath());
-
-
     }
 
     /**

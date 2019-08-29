@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.mxdc.util.Constants;
 import com.mxdc.util.GeneralUtils;
 import com.mxdc.util.GithubSetting;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,12 +16,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,32 +34,63 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class MainController implements Initializable {
     @FXML
-    private BorderPane root;  //主窗体BorderPane
+    /** 主窗体BorderPane */
+    private BorderPane root;
     @FXML
-    private Label labelMinimize;  //标题栏的最小化Label按钮
+    /** 标题栏的最小化Label按钮 */
+    private Label labelMinimize;
     @FXML
-    private Label labelMaximize;  //标题栏的最大化Label按钮
+    /** 标题栏的最大化Label按钮 */
+    private Label labelMaximize;
     @FXML
-    private Label labelExit;  //标题栏的关闭/退出Label按钮
+    /** 标题栏的关闭/退出Label按钮 */
+    private Label labelExit;
     @FXML
-    private BorderPane titleBar;  //包裹标题文字和最小化、最大化、关闭/退出按钮的BorderPane
+    /** 包裹标题文字和最小化、最大化、关闭/退出按钮的BorderPane */
+    private BorderPane titleBar;
     @FXML
-    private VBox vBox;      //包裹“上传区、相册、图床设置”三个标签的VBox
+    /** 包裹“上传区、相册、图床设置”三个标签的VBox */
+    private VBox vBox;
     @FXML
-    private HBox hBoxUpload;  //上传区HBox标签
+    /** 上传区HBox标签 */
+    private HBox hBoxUpload;
     @FXML
-    private HBox hBoxPhotograph;  //相册HBox标签
-    @FXML
-    private HBox hBoxPictureBedSettings;  //图床设置HBox标签
-    private boolean flag = false;  //用作“图床设置”是否展开的状态标记
-    private VBox settingItemsPane;  //“图床设置”展开的设置选项容器VBox
+    /** 相册HBox标签 */
+    private HBox hBoxPhotograph;
 
-    private String currentTagName;  //记录当前的标签是“上传区”、“相册”等
-    private Map<String,Object> centerPaneMap;  //保存对应的center面板对象
+    public HBox getHBoxPictureBedSettings() {
+        return hBoxPictureBedSettings;
+    }
+
+    @FXML
+    /** 图床设置HBox标签 */
+    private HBox hBoxPictureBedSettings;
+    /** 用作“图床设置”是否展开的状态标记 */
+    private boolean flag = false;
+    /** “图床设置”展开的设置选项容器VBox */
+    private VBox settingItemsPane;
+    /**图床设置展开的设置选项控制器settingItemsController*/
+    private SettingItemsController settingItemsController;
+
+    /** 记录当前的标签是“上传区”、“相册”等 */
+    private String currentTagName;
+
+    /** 保存对应的center面板对象 */
+    private Map<String,Object> centerPaneMap;
+    /** 上传面板控制器 */
+    private UploadCenterPaneController upload = new UploadCenterPaneController();
+
+//    private short hotKeyFlag = 0x00;
+//    private static final short MASK_CTRL = 1 << 0;
+//    private static final short MASK_ALT = 1 << 1;
+//    private static final short MASK_U = 1 << 2;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,17 +98,35 @@ public class MainController implements Initializable {
         labelMaximize.setCursor(Cursor.DEFAULT);
         labelExit.setCursor(Cursor.DEFAULT);
         titleBar.setCursor(Cursor.DEFAULT);
-        currentTagName = "上传区"; //首次运行的面板是上传区的面板
+        //首次运行的面板是上传区的面板
+        currentTagName = "上传区";
         centerPaneMap = new HashMap<>();
         this.saveCenterPane();
-        //加载配置属性
+        //初始化“图床设置”的选项
+        try {
+            //加载“图床设置”选项，并设置引用主窗体root
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingitems.fxml"));
+            settingItemsPane = loader.load();
+            settingItemsController =  loader.getController();
+            settingItemsController.setRoot(root);
+            settingItemsController.setMainController(this);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // 加载配置属性
         loadSetting();
+
     }
+
+
 
     //最小化Label按钮事件处理
     @FXML
     public void onClickedMinimize(MouseEvent mouseEvent) {  //最小化按钮鼠标单击事件
-        if (mouseEvent.getButton() == MouseButton.PRIMARY) { //如果按下鼠标左键，最小化primaryStage
+        //如果按下鼠标左键，最小化primaryStage
+        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             Stage primaryStage = (Stage) labelMinimize.getParent().getScene().getWindow();  //窗体primaryStage对象
             primaryStage.setIconified(true);
         }
@@ -94,9 +149,12 @@ public class MainController implements Initializable {
     //最大化Label按钮事件处理
     @FXML
     public void onClickedMaximize(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == MouseButton.PRIMARY) {  //如果按下鼠标左键，最大化/最小化primaryStage
-            Stage primaryStage = (Stage) labelMaximize.getParent().getScene().getWindow();  //窗体primaryStage对象
-            if (!primaryStage.isMaximized()) {  //如果primaryStage是最小化，设置成最大化
+        //如果按下鼠标左键，最大化/最小化primaryStage
+        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+            //窗体primaryStage对象
+            Stage primaryStage = (Stage) labelMaximize.getParent().getScene().getWindow();
+            //如果primaryStage是最小化，设置成最大化
+            if (!primaryStage.isMaximized()) {
                 primaryStage.setMaximized(true);
                 labelMaximize.setGraphic(new ImageView(new Image("/image/MaximizedDefault.png", 46, 32, false, false, false)));
                 //设置primaryStage高度、宽度为屏幕的可视化高度、宽度（不包括Windows底下的任务栏）
@@ -112,7 +170,8 @@ public class MainController implements Initializable {
     @FXML
     public void onEnteredMaximize(MouseEvent mouseEvent) {  //最大化按钮鼠标进入事件
         if (labelMaximize.getCursor() == Cursor.DEFAULT) {
-            Stage primaryStage = (Stage) labelMaximize.getParent().getScene().getWindow();  //窗体primaryStage对象
+            //窗体primaryStage对象
+            Stage primaryStage = (Stage) labelMaximize.getParent().getScene().getWindow();
             if (!primaryStage.isMaximized()) {
                 labelMaximize.setGraphic(new ImageView(new Image("/image/Maximize.png", 46, 32, false, false, false)));
             } else {
@@ -215,9 +274,11 @@ public class MainController implements Initializable {
 
 
     //上传区tag事件
+    @FXML
     public void onUploadClicked(MouseEvent mouseEvent){
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
-            this.resetLeftTagStatus();   //调用重设标签的图片和文字颜色函数
+            settingItemsController.resetTagColor(); //重设图床设置项的文字颜色
+            this.resetLeftTagStatus();  //调用重设左边tag的图片和文字颜色的函数
             ((Label)hBoxUpload.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/cloud_focused.png",30, 25, false, false, false)));
             ((Label)hBoxUpload.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
             ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().add("text");
@@ -228,9 +289,11 @@ public class MainController implements Initializable {
         }
     }
     //相册tag事件
+    @FXML
     public void onPhotographClicked(MouseEvent mouseEvent){
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
-            this.resetLeftTagStatus();   //调用重设标签的图片和文字颜色函数
+            settingItemsController.resetTagColor(); //重设图床设置项的文字颜色
+            this.resetLeftTagStatus();  //调用重设左边tag的图片和文字颜色的函数
             ((Label)hBoxPhotograph.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/photograph_focused.png",30, 25, false, false, false)));
             ((Label)hBoxPhotograph.getChildren().get(1)).setTextFill(Color.rgb(64,158,255));
             ((Label)hBoxPhotograph.getChildren().get(1)).getStyleClass().add("text");
@@ -247,7 +310,8 @@ public class MainController implements Initializable {
         }
     }
     //图床设置tag事件
-    public void onPictureBedClicked(MouseEvent mouseEvent) {
+    @FXML
+    public void onPictureBedSettingsClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             this.resetLeftTagStatus();  //调用重设标签的图片和文字颜色函数
             ((Label)hBoxPictureBedSettings.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/picturebedsettings_focused.png",30, 25, false, false, false)));
@@ -258,21 +322,22 @@ public class MainController implements Initializable {
             }
         }
     }
+    @FXML
     public void onFlagIconClicked(MouseEvent mouseEvent){
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
-            if (settingItemsPane == null){
+          /*  if (settingItemsPane == null){
                 try {
                     //加载“图床设置”选项，并设置引用主窗体root
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settingitems.fxml"));
-
                     settingItemsPane = loader.load();
-                    SettingItemsController settingItemsController =  loader.getController();
+                    settingItemsController =  loader.getController();
                     settingItemsController.setRoot(root);
+                    settingItemsController.setMainController(this);
                 }
                 catch (Exception e){
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             if (flag) {
                 flag = false;
@@ -286,7 +351,7 @@ public class MainController implements Initializable {
         }
     }
     //左边上传区HBox标签、相册HBox标签、图床设置HBox标签的图片和文字重设为默认值的函数
-    private void resetLeftTagStatus(){
+    public void resetLeftTagStatus(){
         ((Label)hBoxUpload.getChildren().get(0)).setGraphic(new ImageView(new Image("/image/cloud.png",30, 25, false, false, false)));
         ((Label)hBoxUpload.getChildren().get(1)).setTextFill(Color.rgb(255,255,255));
         ((Label)hBoxUpload.getChildren().get(1)).getStyleClass().remove("text");
