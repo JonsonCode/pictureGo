@@ -61,7 +61,7 @@ public class SettingGithubController {
 
     /**
      * 选择git项目路径
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     public void chooseProjectPath(MouseEvent mouseEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -92,7 +92,7 @@ public class SettingGithubController {
 
     /**
      * 选择图片上传文件夹
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     public void chooseImgPath(MouseEvent mouseEvent) throws IOException {
         String projectPath = GithubSetting.getInstance().getProjectPath();
@@ -132,7 +132,7 @@ public class SettingGithubController {
     }
     /**
      * 保存githu设置
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     public void saveConfigure(MouseEvent mouseEvent) {
         String userName = this.user.getText();
@@ -149,10 +149,6 @@ public class SettingGithubController {
         String projectPath = GithubSetting.getInstance().getProjectPath();
         String picPath = GithubSetting.getInstance().getPicPath();
         if (StringUtils.isEmpty(projectPath) || StringUtils.isEmpty(picPath)){
-           /* Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setContentText("项目路径和图片存储路径不为空");
-            alert.showAndWait();*/
             GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("项目路径和图片存储路径不为空"));
             return;
         }
@@ -167,7 +163,6 @@ public class SettingGithubController {
         githubProperties.saveGitPassword(password);
         try {
             IOUtils.write(properties,new FileOutputStream("github.properties"),"UTF-8");
-//            GeneralUtils.messageDialog("Scess Dialog","保存成功",Alert.AlertType.INFORMATION);
             GeneralUtils.toastInfo((StackPane) user.getScene().getRoot(),new Label("保存成功"));
         } catch (IOException e) {
             e.printStackTrace();

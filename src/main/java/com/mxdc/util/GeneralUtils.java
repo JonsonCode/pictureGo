@@ -1,6 +1,5 @@
 package com.mxdc.util;
 
-import com.jfoenix.controls.JFXDialog;
 import com.mxdc.controller.UploadCenterPaneController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -63,9 +62,7 @@ public class GeneralUtils {
         fadeTransition.setToValue(0);
         stageStackPane.getChildren().add(fadingLabel);
         //动画完成后移除label组件
-        fadeTransition.setOnFinished(fade->{
-            stageStackPane.getChildren().remove(fadingLabel);
-        });
+        fadeTransition.setOnFinished(fade-> stageStackPane.getChildren().remove(fadingLabel));
         //开始播放渐变动画提示
         fadeTransition.play();
     }
@@ -82,12 +79,7 @@ public class GeneralUtils {
     public static void addShortcutKey(){
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
         logger.setLevel(Level.OFF);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GeneralUtils.addUploadShortcutKey();
-            }
-        }).start();
+        new Thread(() -> GeneralUtils.addUploadShortcutKey()).start();
     }
 
     /**
@@ -102,7 +94,7 @@ public class GeneralUtils {
             System.err.println(ex.getMessage());
             System.exit(1);
         }
-
+        // 全局将键盘
         GlobalScreen.addNativeKeyListener(new NativeKeyListener() {
             @Override
             public void nativeKeyPressed(NativeKeyEvent e) {
@@ -110,9 +102,7 @@ public class GeneralUtils {
                 boolean isCtrlPressed = (e.getModifiers() & NativeKeyEvent.CTRL_MASK) != 0;
                 boolean isUpressed = e.getKeyCode() == NativeKeyEvent.VC_U;
                 if (isAltPressed & isCtrlPressed & isUpressed){
-                    Platform.runLater(()->{
-                        upload.onClickedClipboard(null);
-                    });
+                    Platform.runLater(()-> upload.onClickedClipboard(null));
                 }
             }
             @Override
@@ -125,10 +115,10 @@ public class GeneralUtils {
     }
     /**
      * AES加密
-     * @param src
-     * @param key
-     * @return
-     * @throws Exception
+     * @param src 明文
+     * @param key 密钥
+     * @return   密文
+     * @throws Exception 加密异常
      */
     public static String encrypt(String src, String key) throws Exception {
         if (key == null || key.length() != 16) {
@@ -144,10 +134,10 @@ public class GeneralUtils {
 
     /**
      * AES解密
-     * @param src
-     * @param key
-     * @return
-     * @throws Exception
+     * @param src 要解密的文本
+     * @param key 密钥
+     * @return 明文
+     * @throws Exception 解密异常
      */
     public static String decrypt(String src, String key) throws Exception {
         if (key == null || key.length() != 16) {
@@ -159,8 +149,7 @@ public class GeneralUtils {
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] encrypted1 = hex2byte(src);
         byte[] original = cipher.doFinal(encrypted1);
-        String originalString = new String(original);
-        return originalString;
+        return new String(original);
     }
 
     public static byte[] hex2byte(String strhex) {
@@ -180,17 +169,17 @@ public class GeneralUtils {
     }
 
     public static String byte2hex(byte[] b) {
-        String hs = "";
-        String stmp = "";
-        for (int n = 0; n < b.length; n++) {
-            stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
+        StringBuilder hs = new StringBuilder();
+        String stmp;
+        for (byte value : b) {
+            stmp = (Integer.toHexString(value & 0XFF));
             if (stmp.length() == 1) {
-                hs = hs + "0" + stmp;
+                hs.append("0").append(stmp);
             } else {
-                hs = hs + stmp;
+                hs.append(stmp);
             }
         }
-        return hs.toUpperCase();
+        return hs.toString().toUpperCase();
     }
 
     /**
@@ -206,6 +195,6 @@ public class GeneralUtils {
         Graphics2D g = bufferedImage.createGraphics();
         g.drawImage(image, null, null);
         //ImageIO.write((RenderedImage)bufferedImage, "jpg", file);
-        ImageIO.write((RenderedImage)bufferedImage, "jpg", desFile);
+        ImageIO.write(bufferedImage, "jpg", desFile);
     }
 }

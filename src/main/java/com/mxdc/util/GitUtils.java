@@ -2,13 +2,14 @@ package com.mxdc.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.File;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
  **/
 public class GitUtils {
 
+    private static final Logger logger = LoggerFactory.getLogger(GitUtils.class);
     /**
      * 加载git项目
      * @param gitPath 本地项目路径
@@ -26,8 +28,10 @@ public class GitUtils {
      */
     public static Repository init(String gitPath){
         try {
-            return new FileRepositoryBuilder().setGitDir(findGitRepositoryPaty(gitPath)).build();
+            File gitRepository = findGitRepositoryPaty(gitPath);
+            return new FileRepositoryBuilder().setGitDir(gitRepository).build();
         } catch (Exception e) {
+            logger.info("初始化失败: "+e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -35,8 +39,8 @@ public class GitUtils {
 
     /**
      * 获取本地git文件夹
-     * @param projectPath
-     * @return
+     * @param projectPath 项目路径
+     * @return 返回.git文件
      */
     public static File findGitRepositoryPaty(String projectPath) throws Exception {
         File file = new File(projectPath);
@@ -60,20 +64,18 @@ public class GitUtils {
 
     /**
      * 提交到本地仓库
-     * @param repository
+     * @param repository git仓库
      */
     public static void commitAll(Repository repository ){
         Git git = new Git(repository);
-        String msg = "add file : ";
         try {
-//            PullResult call = git.pull().setRemote().call();
             git.add().addFilepattern(".").call();
-            msg += git.status().call().getAdded().toString();
-            msg += "\nchanged file : " + git.status().call().getChanged().toString();
-            msg += "\nremoved file :" + git.status().call().getRemoved().toString();
-            msg += "\nmodified file :" + git.status().call().getModified().toString().toString();
-            System.out.println(msg);
-            git.commit().setMessage(msg).call();
+            String addMsg = git.status().call().getAdded().toString();
+            logger.info("add : "+ addMsg);
+            logger.info("changed : " + git.status().call().getChanged().toString());
+            logger.info("removed :" + git.status().call().getRemoved().toString());
+            logger.info("modified :" + git.status().call().getModified().toString());
+            git.commit().setMessage(addMsg).call();
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
@@ -82,8 +84,8 @@ public class GitUtils {
 
     /**
      * 推送到远程仓库
-     * @param repository
-     * @throws Exception
+     * @param repository g本地it仓库
+     * @throws Exception push异常
      */
     public static void gitPush(Repository repository) throws Exception {
         String remoteUrl = getRemoteUrl(repository);
@@ -98,15 +100,16 @@ public class GitUtils {
 
     /**
      * 获取远程仓库地址
-     * @param repository
-     * @return
+     * @param repository 本地git仓库
+     * @return Sring 获取远程仓库地址
      */
     public static String getRemoteUrl(Repository repository){
         Git git = new Git(repository);
         try {
             List<RemoteConfig> remoteConfigList = git.remoteList().call();
             if (null != remoteConfigList && remoteConfigList.size() > 0){
-                RemoteConfig remoteConfig = remoteConfigList.stream().filter(url -> url.getURIs().toString().contains("github.com")).findFirst().get();
+                RemoteConfig remoteConfig;
+                remoteConfig = remoteConfigList.stream().filter(url -> url.getURIs().toString().contains("github.com")).findFirst().get();
                 String remoteUrl = remoteConfig.getURIs().toString();
                 return remoteUrl.substring(1,remoteUrl.length()-1);
             }
@@ -117,10 +120,9 @@ public class GitUtils {
     }
     /**
      * git push
-     *
-     * @param repository
-     * @param username
-     * @param password
+     * @param repository 本地git仓库
+     * @param username 用户名
+     * @param password 密码
      */
     public static void gitPush(Repository repository, String username, String password) throws Exception {
         Git git = new Git(repository);
@@ -144,8 +146,7 @@ public class GitUtils {
 
     /**
      * 验证push结果
-     *
-     * @param result
+     * @param result push返回的结果
      */
     public static void validPushResult(PushResult result) throws Exception {
         String msg = "未知原因";
@@ -191,7 +192,7 @@ public class GitUtils {
     /**
      * 根据文件名返回，图片在github的URL地址
      * @param fileName 文件名
-     * @return
+     * @return String 生成的url链接
      */
     public static String createURL(String fileName){
         // 获取github配置
@@ -204,9 +205,7 @@ public class GitUtils {
         String subPath = StringUtils.substringAfter(picPath, projectBase);
         String raw = StringUtils.replace(githubSetting.getGitRemoteReop(), Constants.GIT_PATH, "/master/");
         raw = StringUtils.replace(raw, Constants.GIT_DOMAIN, Constants.GIT_RAW_URL);
-
-        String rawUrl  = new StringBuilder(raw).append(subPath).append("/").append(fileName).toString();
-        return rawUrl;
+        return raw + subPath + "/" + fileName;
     }
 
 }

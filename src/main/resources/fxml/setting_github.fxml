@@ -3,8 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXPasswordField?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.mxdc.controller.SettingGithubController"
@@ -60,7 +58,7 @@
                         </VBox>
                         <!-- 图片保存目录 -->
                         <VBox alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                            <Label contentDisplay="CENTER" text="图片保存目录:" styleClass="text-dark"/>
+                            <Label contentDisplay="CENTER" text="图片保存目录:" />
                         </VBox>
                         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"
                               GridPane.rowIndex="3">
@@ -79,7 +77,5 @@
 
             </children>
         </VBox>
-
-
     </center>
 </BorderPane>

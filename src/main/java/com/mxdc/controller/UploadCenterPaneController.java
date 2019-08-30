@@ -16,13 +16,12 @@ import javafx.stage.FileChooser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.datatransfer.Clipboard;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -54,7 +53,10 @@ public class UploadCenterPaneController {
 
     /** 系统粘贴板 */
     private Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    /** 本地git仓库 */
+    private Repository repository;
 
+    private static final Logger logger = LoggerFactory.getLogger(UploadCenterPaneController.class);
     /**设置stageStackPane引用的函数*/
     public void setStageStackPane(StackPane stageStackPane){
         this.stageStackPane = stageStackPane;
@@ -62,7 +64,7 @@ public class UploadCenterPaneController {
 
     /**
      * Markdown链接格式的Label事件处理
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     @FXML
     public void onClickedMarkdown(MouseEvent mouseEvent){
@@ -135,7 +137,7 @@ public class UploadCenterPaneController {
 
     /**
      * 拖动到目标范围上面拖动的时候，不停执行提示是链接文件模式
-     * @param dragEvent
+     * @param dragEvent 拖拽事件
      */
     @FXML
     public void onTargetRegionDragOver(DragEvent dragEvent){
@@ -146,7 +148,7 @@ public class UploadCenterPaneController {
 
     /**
      * 拖动到目标范围上并松开鼠标的时候，执行这个DragDropped事件处理
-     * @param dragEvent
+     * @param dragEvent 拖拽事件
      */
     @FXML
     public void onTargetRegionDragDropped(DragEvent dragEvent){
@@ -156,7 +158,7 @@ public class UploadCenterPaneController {
             return;
         }
         if (dragEvent.getDragboard().hasFiles()){
-            System.out.println("You have dragged a file.Location is "+dragEvent.getDragboard().getFiles().get(0).toString());
+            logger.info("You have dragged a file.Location is "+dragEvent.getDragboard().getFiles().get(0).toString());
             File file = dragEvent.getDragboard().getFiles().get(0);
             String fileExtension = StringUtils.substringAfter(file.getName(), ".");
             try {
@@ -178,7 +180,7 @@ public class UploadCenterPaneController {
 
     /**
      * 点击上传"Label事件处理,打开系统文件选择对话框，选择图片文件
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     @FXML
     public void onClickedChooseFile(MouseEvent mouseEvent){
@@ -197,7 +199,7 @@ public class UploadCenterPaneController {
             );
             File openFile = chooser.showOpenDialog(linkFormatContainer.getScene().getWindow());
             if (openFile!=null){
-                System.out.println("You have opened a file.Location is "+openFile.toString());
+                logger.info("You have opened a file.Location is "+openFile.toString());
                 String extension = StringUtils.substringAfter(openFile.getName(), ".");
                 try {
                     // 以单前时间戳命名重文件
@@ -214,8 +216,6 @@ public class UploadCenterPaneController {
                     clipboard.setContents(trans, null);
                     //提示信息
                     GeneralUtils.toastInfo(new Label("链接已复制到粘贴版"));
-                } catch (IOException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -226,12 +226,16 @@ public class UploadCenterPaneController {
     /**
      * 先提交，后push到远程仓库，最后生成链接
      * @param fileName 文件名
-     * @return
+     * @return 链接
      */
     public String createLink(String fileName){
         // 上传前获取配置
         GithubSetting githubSetting = GithubSetting.getInstance();
-        Repository init = GitUtils.init(githubSetting.getProjectPath());
+        // 如果未初始化本地仓库或者本地仓库改变则重新初始化仓库
+        if (repository == null || !StringUtils.equals(githubSetting.getProjectPath(),repository.getDirectory().getPath())){
+            repository = GitUtils.init(githubSetting.getProjectPath());
+        }
+
         String username = githubSetting.getGitUsername();
         String password = githubSetting.getGitPassword();
         // 创建url链接
@@ -245,30 +249,22 @@ public class UploadCenterPaneController {
         // 开始上传
         try {
             // 复制文件到图片目录
+            logger.info("copy image");
             FileUtils.writeStringToFile(new File(imageDataPath),urlLink,"UTF-8",true);
             // 先commit在push
-            GitUtils.commitAll(init);
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        GitUtils.gitPush(init,username,password);
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            logger.info("commit");
+            GitUtils.commitAll(repository);
+            logger.info("push push push");
+            GitUtils.gitPush(repository,username,password);
+            logger.info("push sccessfully");
         } catch (Exception e) {
+            logger.info("上传失败"+e.getMessage());
             e.printStackTrace();
         }
         // 创建MarkDown格式链接
-        String markDownLink = new StringBuilder().append("![")
-                .append(fileName).append("]")
-                .append("(").append(urlLink).append(")").toString();
+        String markDownLink = "![" + fileName + "]" + "(" + urlLink + ")";
         // 创建HTML格式链接
-        String htmlLink = new StringBuilder("<img src='").append(urlLink).append("'>").toString();
+        String htmlLink = "<img src='" + urlLink + "'>";
         switch (this.labelType){
             case 1:return markDownLink;
             case 2:return htmlLink;
@@ -282,7 +278,7 @@ public class UploadCenterPaneController {
 
     /**
      * 点击触发上传粘贴版图片
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     public void onClickedClipboard(MouseEvent mouseEvent) {
         GithubSetting githubSetting = GithubSetting.getInstance();
@@ -310,11 +306,11 @@ public class UploadCenterPaneController {
                     // 把文本内容设置到系统剪贴板
                     clipboard.setContents(trans, null);
                     GeneralUtils.toastInfo(new Label("链接已复制到粘贴版"));
-                } catch (UnsupportedFlavorException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (UnsupportedFlavorException | IOException e) {
                     e.printStackTrace();
                 }
+            }else{
+                GeneralUtils.toastInfo(new Label("粘贴板内容不是图片,请重新复制图片"));
             }
         }
         else {
