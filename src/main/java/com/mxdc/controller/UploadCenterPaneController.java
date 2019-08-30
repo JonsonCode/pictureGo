@@ -184,7 +184,7 @@ public class UploadCenterPaneController {
     public void onClickedChooseFile(MouseEvent mouseEvent){
         GithubSetting githubSetting = GithubSetting.getInstance();
         if (StringUtils.isEmpty(githubSetting.getPicPath())){
-            GeneralUtils.messageDialog("Warning Dialog","请先配置图片路径",Alert.AlertType.WARNING);
+//            GeneralUtils.messageDialog("Warning Dialog","请先配置图片路径",Alert.AlertType.WARNING);
             GeneralUtils.toastInfo(new Label("请先配置图片路径"));
             return;
         }

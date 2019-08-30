@@ -66,7 +66,7 @@ public class SettingGithubController {
     public void chooseProjectPath(MouseEvent mouseEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("选择项目目录");
-        File file = directoryChooser.showDialog(new Stage());
+        File file = directoryChooser.showDialog(user.getScene().getWindow());
         if (file == null || !file.isDirectory()) {
             return;
         }
@@ -113,7 +113,7 @@ public class SettingGithubController {
             directoryChooser.setInitialDirectory(file);
         }
         directoryChooser.setTitle("选择图片保存目录");
-        File file = directoryChooser.showDialog(new Stage());
+        File file = directoryChooser.showDialog(user.getScene().getWindow());
         if (file == null || !file.isDirectory()) {
             return;
         }
